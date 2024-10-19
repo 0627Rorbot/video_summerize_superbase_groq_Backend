@@ -7,3 +7,4 @@ requests
 pytube
 python-dotenv
 groq
+gunicorn
