@@ -6,6 +6,7 @@ app = create_app()
 # Enable CORS for all routes
 CORS(app)
 
+    
 app.config['DEBUG'] = True
 
 @app.route('/hello')

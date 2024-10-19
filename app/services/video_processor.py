@@ -5,11 +5,6 @@ import os
 
 class VideoProcessor:
   def __init__(self, api_key):
-    MOUNT_PATH = os.getenv("MOUNT_PATH")
-    
-    if not os.path.exists(MOUNT_PATH):
-      os.makedirs(MOUNT_PATH)
-      
     self.client = Groq(api_key=api_key)
 
   def extract_audio(self, video_file, audio_file='/data/input_audio.mp3'):
