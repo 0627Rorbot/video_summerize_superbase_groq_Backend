@@ -4,7 +4,7 @@ from flask_cors import CORS
 app = create_app()
 
 # Enable CORS for all routes
-CORS(app, resources={r"/*": {"origins": "https://video-summerize-superbase-groq-ui.onrender.com/"}})
+CORS(app)
 
 
 app.config['DEBUG'] = True
