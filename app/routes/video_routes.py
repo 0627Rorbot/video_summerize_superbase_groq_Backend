@@ -1,7 +1,11 @@
 from flask import Blueprint, request, jsonify
 from app.controllers.video_controller import handle_video_upload, handle_video_processing
+from flask_cors import CORS
 
 video_bp = Blueprint('video_bp', __name__)
+
+# Enable CORS for this Blueprint
+CORS(video_bp)
 
 # Route to upload video
 @video_bp.route('/upload', methods=['POST'])

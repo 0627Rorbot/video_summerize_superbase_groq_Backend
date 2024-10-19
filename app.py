@@ -4,8 +4,7 @@ from flask_cors import CORS
 app = create_app()
 
 # Enable CORS for all routes
-# CORS(app)
-CORS(app, resources={r"/upload": {"origins": "https://video-summerize-superbase-groq-ui.onrender.com/", "methods": ["POST", "OPTIONS"], "allow_headers": ["Content-Type"]}})
+CORS(app)
 
 app.config['DEBUG'] = True
 
