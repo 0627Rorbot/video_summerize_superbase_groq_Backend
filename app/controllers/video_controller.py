@@ -55,10 +55,12 @@ def handle_video_processing(video_name):
             # Extract clips based on insights
             video_processor.extract_clips(video_path, insights)
             
-            res = storage_manager.upload_video_to_bucket(bucket_name, "/data/clip_1.mp4")
-            res = storage_manager.upload_video_to_bucket(bucket_name, "/data/clip_2.mp4")
-            res = storage_manager.upload_video_to_bucket(bucket_name, "/data/clip_3.mp4")
-            
+            for idx, insight in enumerate(insights):
+              clip = video.subclip(insight['start_time'], insight['end_time'])
+              clip_path = f"/data/clip_{idx + 1}.mp4"
+              # Check upload superbase
+              res = storage_manager.upload_video_to_bucket(bucket_name, f"/data/{clip_path}")
+              
             return jsonify({'message': 'Video processed successfully', 'insights': insights}), 200
           
     return jsonify({'error': 'Video processing failed'}), 500

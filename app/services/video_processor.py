@@ -78,11 +78,11 @@ class VideoProcessor:
 
       insights_text = completion.choices[0].message.content
       
-      video_infoes = self.parse_insights(insights_text)
-      print(video_infoes)
+      # video_infoes = self.parse_insights(insights_text)
+      # print(video_infoes)
       
-      if self._is_validate_videos(video_infoes=video_infoes, min_limit=46, max_limit=180):
-        break
+      # if self._is_validate_videos(video_infoes=video_infoes, min_limit=46, max_limit=180):
+      #   break
       
     return insights_text
 
