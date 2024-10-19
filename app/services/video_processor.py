@@ -7,7 +7,7 @@ class VideoProcessor:
   def __init__(self, api_key):
     self.client = Groq(api_key=api_key)
 
-  def extract_audio(self, video_file, audio_file='./data/input_audio.mp3'):
+  def extract_audio(self, video_file, audio_file='/data/input_audio.mp3'):
     video = VideoFileClip(video_file)
     video.audio.write_audiofile(audio_file)
     
@@ -112,7 +112,7 @@ class VideoProcessor:
     video = VideoFileClip(video_file)
     for idx, insight in enumerate(insights):
       clip = video.subclip(insight['start_time'], insight['end_time'])
-      clip_path = f"./data/clip_{idx + 1}.mp4"
+      clip_path = f"/data/clip_{idx + 1}.mp4"
       # Check if the file exists
       if os.path.exists(clip_path):
         os.remove(clip_path)

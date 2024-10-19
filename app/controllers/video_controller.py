@@ -16,10 +16,10 @@ bucket_name = 'video_bucket'
 def handle_video_upload(video_file):
   try:
     # Create directory if it does not exist
-    os.makedirs('./data/uploads', exist_ok=True)
+    os.makedirs('/data/uploads', exist_ok=True)
     
     # Save the uploaded video locally for processing
-    video_path = os.path.join('./data/uploads', video_file.filename)
+    video_path = os.path.join('/data/uploads', video_file.filename)
     video_file.save(video_path)
 
     # Upload to Supabase
@@ -33,10 +33,10 @@ def handle_video_upload(video_file):
 def handle_video_processing(video_name):
   try:
     # Create directory if it does not exist
-    os.makedirs('./data/downloads', exist_ok=True)
+    os.makedirs('/data/downloads', exist_ok=True)
     
     # Download video from Supabase
-    video_path = os.path.join('./data/downloads', video_name)
+    video_path = os.path.join('/data/downloads', video_name)
     storage_manager.download_video_from_bucket(bucket_name, video_name, video_path)
 
     # Extract audio and process insights
@@ -55,9 +55,9 @@ def handle_video_processing(video_name):
             # Extract clips based on insights
             video_processor.extract_clips(video_path, insights)
             
-            res = storage_manager.upload_video_to_bucket(bucket_name, "./data/clip_1.mp4")
-            res = storage_manager.upload_video_to_bucket(bucket_name, "./data/clip_2.mp4")
-            res = storage_manager.upload_video_to_bucket(bucket_name, "./data/clip_3.mp4")
+            res = storage_manager.upload_video_to_bucket(bucket_name, "/data/clip_1.mp4")
+            res = storage_manager.upload_video_to_bucket(bucket_name, "/data/clip_2.mp4")
+            res = storage_manager.upload_video_to_bucket(bucket_name, "/data/clip_3.mp4")
             
             return jsonify({'message': 'Video processed successfully', 'insights': insights}), 200
           
