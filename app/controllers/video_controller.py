@@ -2,12 +2,6 @@ from flask import jsonify
 from app.services.supabase_manager import SupabaseStorageManager
 from app.services.video_processor import VideoProcessor
 import os
-import logging
-from logging.handlers import RotatingFileHandler
-
-# Set up the log handler with rotation
-file_handler = RotatingFileHandler('logs/flask_app.log', maxBytes=10240, backupCount=10)
-file_handler.setLevel(print)
 
 MOUNT_PATH = os.getenv("MOUNT_PATH")
 if not os.path.exists(MOUNT_PATH):
