@@ -16,27 +16,29 @@ bucket_name = 'video_bucket'
 def handle_video_upload(video_file):
   try:
     # Save the uploaded video locally for processing
-    video_path = os.path.join('uploads', video_file.filename)
+    video_path = os.path.join('./data/uploads', video_file.filename)
     video_file.save(video_path)
 
+    print("here_start")
     # Upload to Supabase
     res = storage_manager.upload_video_to_bucket(bucket_name, video_path)
-
-    return jsonify({'message': 'Video uploaded successfully', 'data': res}), 200
+    print("here_end")
+    
+    return jsonify({'message': 'Video uploaded successfully', 'data': str(res)}), 200
   
   except Exception as e:
-    
     return jsonify({'error': str(e)}), 500
 
 def handle_video_processing(video_name):
   try:
     # Download video from Supabase
-    video_path = os.path.join('downloads', video_name)
+    video_path = os.path.join('./data/downloads', video_name)
     storage_manager.download_video_from_bucket(bucket_name, video_name, video_path)
 
     # Extract audio and process insights
     audio_file = video_processor.extract_audio(video_path)
     
+    print("audio_file", audio_file)
     if audio_file:
       transcript = video_processor.transcribe_audio(audio_file)
       

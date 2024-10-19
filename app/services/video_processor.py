@@ -7,7 +7,7 @@ class VideoProcessor:
   def __init__(self, api_key):
     self.client = Groq(api_key=api_key)
 
-  def extract_audio(self, video_file, audio_file='input_audio.mp3'):
+  def extract_audio(self, video_file, audio_file='./data/input_audio.mp3'):
     video = VideoFileClip(video_file)
     video.audio.write_audiofile(audio_file)
     
@@ -47,33 +47,44 @@ class VideoProcessor:
         
     return sentences_with_timestamps
 
+  
   def get_insightful_moments(self, transcript):
-    prompt = f"""
-        Transcript:
-        {transcript}
+    while True:
+      prompt = f"""
+          Transcript:
+          {transcript}
 
-        Output format: "
-        1. Timestamp: [start_time]-[end_time] seconds
-          Insight: [description]
-        2. Timestamp: [start_time]-[end_time] seconds
-          Insight: [description]
-        3. Timestamp: [start_time]-[end_time] seconds
-          Insight: [description]
-        "
+          Output format: "
+          1. Timestamp: [start_time]-[end_time] seconds
+            Insight: [description]
+          2. Timestamp: [start_time]-[end_time] seconds
+            Insight: [description]
+          3. Timestamp: [start_time]-[end_time] seconds
+            Insight: [description]
+          "
 
-        Prompt: "
-          I have a video transcription and I need to identify the three moments with lasting duration's minimum is 100 s and maximum is 180 s and most insightful.
-          The each result video's lasting duration's minimum is 100 s and maximum is 180s .(This is the most important)
+          Prompt: "
+            I have a video transcription and I need to identify the three moments with lasting duration's minimum is 100 s and maximum is 180 s and most insightful.
+            The each result video's lasting duration's minimum is 60 s and maximum is 180s .(This is the most important)
 
-          If each result video's lasting duration is short of 100 seconds, please continue getting the correct result while you get all good result which video's lasting duration is large of 100 seconds. If each result video's lasting duration is not short of 100 seconds, output the correct formatted result.
-        "
-      """
-        
-    completion = self.client.chat.completions.create(
-      model="llama-3.2-90b-text-preview", messages=[{"role": "user", "content": prompt}], max_tokens=2048
-    )
-    
-    return completion.choices[0].message.content
+            If each result video's lasting duration is short of 60 seconds, please continue getting the correct result while you get all good result which video's lasting duration is large of 100 seconds. If each result video's lasting duration is not short of 100 seconds, output the correct formatted result.
+            You can try 3 times. Please output the best one.
+          "
+        """
+          
+      completion = self.client.chat.completions.create(
+        model="llama-3.2-90b-text-preview", messages=[{"role": "user", "content": prompt}], max_tokens=2048
+      )
+
+      insights_text = completion.choices[0].message.content
+      
+      video_infoes = self.parse_insights(insights_text)
+      print(video_infoes)
+      
+      if self._is_validate_videos(video_infoes=video_infoes, min_limit=46, max_limit=180):
+        break
+      
+    return insights_text
 
   def parse_insights(self, insights_text):
     pattern = r"Timestamp: (\d+\.\d+)-(\d+\.\d+) seconds\s+Insight: (.+)"
@@ -81,8 +92,29 @@ class VideoProcessor:
     
     return [{"start_time": float(m[0]), "end_time": float(m[1]), "description": m[2]} for m in matches]
 
+  def _is_validate_videos(self, video_infoes, min_limit, max_limit):
+    if len(video_infoes) != 3:
+      return False
+    
+    # print("start")
+    # for video_info in video_infoes:
+    #   duration = video_info["end_time"] - video_info["start_time"]
+    #   print(f'{video_info["end_time"]} --- {video_info["start_time"]} --- {duration}')
+      
+    #   # if duration < min_limit | duration > max_limit:
+    #     # return False
+    # print("end")
+      
+    return True
+  
+  
   def extract_clips(self, video_file, insights):
     video = VideoFileClip(video_file)
     for idx, insight in enumerate(insights):
       clip = video.subclip(insight['start_time'], insight['end_time'])
-      clip.write_videofile(f"clip_{idx + 1}.mp4")
+      clip_path = f"./data/clip_{idx + 1}.mp4"
+      # Check if the file exists
+      if os.path.exists(clip_path):
+          os.remove(clip_path)
+          
+      clip.write_videofile(clip_path)
