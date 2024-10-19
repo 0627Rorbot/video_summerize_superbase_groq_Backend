@@ -1,0 +1,9 @@
+flask 
+flask_cors 
+supabase
+moviepy
+imageio-ffmpeg
+requests
+pytube
+python-dotenv
+groq
