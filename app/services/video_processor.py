@@ -64,11 +64,11 @@ class VideoProcessor:
           "
 
           Prompt: "
-            I have a video transcription and I need to identify the three moments with lasting duration's minimum is 100 s and maximum is 180 s and most insightful.
-            The each result video's lasting duration's minimum is 60 s and maximum is 180s .(This is the most important)
+            I have a video transcription and I need to identify the three moments with lasting duration's minimum is 70 seconds and maximum is 180 seconds and most insightful.
+            The each result video's lasting duration's minimum is 70 seconds and maximum is 180 seconds .(This is the most important)
 
-            If each result video's lasting duration is short of 60 seconds, please continue getting the correct result while you get all good result which video's lasting duration is large of 100 seconds. If each result video's lasting duration is not short of 100 seconds, output the correct formatted result.
-            You can try 3 times. Please output the best one.
+            If each result video's lasting duration is short of 70 seconds, please continue getting the correct result while you get all good result which video's lasting duration is large of 100 seconds. If each result video's lasting duration is not short of 100 seconds, output the correct formatted result.
+            You can try 10 times. Please give me the best result one.
           "
         """
           
@@ -115,6 +115,7 @@ class VideoProcessor:
       clip_path = f"./data/clip_{idx + 1}.mp4"
       # Check if the file exists
       if os.path.exists(clip_path):
-          os.remove(clip_path)
+        os.remove(clip_path)
           
       clip.write_videofile(clip_path)
+      
