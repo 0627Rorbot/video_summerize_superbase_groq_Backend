@@ -1,13 +1,14 @@
-from flask import app, jsonify
+from flask import jsonify
 from app.services.supabase_manager import SupabaseStorageManager
 from app.services.video_processor import VideoProcessor
 import os
+import logging
 
 MOUNT_PATH = os.getenv("MOUNT_PATH")
 if not os.path.exists(MOUNT_PATH):
   os.makedirs(MOUNT_PATH)
-  app.logger.info("Make Mount path")  # Logs an info level message
-app.logger.info("Mount path is Exists.")  # Logs an info level message
+  logging.info("Make Mount path")  # Logs an info level message
+logging.info("Mount path is Exists.")  # Logs an info level message
     
 # Initialize managers with environment variables
 supabase_url = os.getenv("SUPABASE_URL")
@@ -46,29 +47,29 @@ def handle_video_processing(video_name):
     storage_manager.download_video_from_bucket(bucket_name, video_name, video_path)
 
     if not os.path.exists(video_path):
-      app.logger.info(f"Video is downloaded, Path: {video_path}")  # Logs an info level message
+      logging.info(f"Video is downloaded, Path: {video_path}")  # Logs an info level message
     else:
-      app.logger.info(f"Video is not downloaded. Path: {video_path}")  # Logs an info level message
+      logging.info(f"Video is not downloaded. Path: {video_path}")  # Logs an info level message
     # Extract audio and process insights
     audio_file = video_processor.extract_audio(video_path)
     
     if not os.path.exists(audio_file):
-      app.logger.info(f"Audio is generated, Path: {audio_file}")  # Logs an info level message
+      logging.info(f"Audio is generated, Path: {audio_file}")  # Logs an info level message
     else:
-      app.logger.info(f"Audio is not generated. Path: {audio_file}")  # Logs an info level message
+      logging.info(f"Audio is not generated. Path: {audio_file}")  # Logs an info level message
       
     if audio_file:
       transcript = video_processor.transcribe_audio(audio_file)
-      app.logger.info(f"Transcription: {transcript}")  # Logs an info level message
+      logging.info(f"Transcription: {transcript}")  # Logs an info level message
       
       
       if transcript:
         insights_text = video_processor.get_insightful_moments(transcript)
-        app.logger.info(f"Insights_text: {insights_text}")  # Logs an info level message
+        logging.info(f"Insights_text: {insights_text}")  # Logs an info level message
         
         if insights_text:
           insights = video_processor.parse_insights(insights_text)
-          app.logger.info(f"Insights: {insights}")  # Logs an info level message
+          logging.info(f"Insights: {insights}")  # Logs an info level message
           
           if insights:
             # Extract clips based on insights
