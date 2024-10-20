@@ -12,8 +12,6 @@ video_bp = Blueprint('video_bp', __name__)
 # Enable CORS for this Blueprint
 CORS(video_bp)
 
-MOUNT_PATH = os.getenv("MOUNT_PATH")
-    
 # Route to upload video
 @video_bp.route('/upload', methods=['POST'])
 def upload_video():
