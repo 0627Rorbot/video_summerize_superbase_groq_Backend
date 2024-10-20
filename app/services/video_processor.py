@@ -63,11 +63,11 @@ class VideoProcessor:
         "
 
         Prompt: "
-          Iată transcrierea video.
-Durata ar trebui să fie de cel puțin 70 de secunde și de cel mult 180 de secunde și ar trebui să identifici trei momente perspicace.
-Durata fiecărui videoclip rezultat ar trebui să fie de cel puțin 70 de secunde și de cel mult 180 de secunde. (Acesta este cel mai important)
+          I have a video transcription.
+          I have to identify the three moments with lasting duration's minimum is 70 seconds and maximum is 180 seconds and most insightful.
+          The each result video's lasting duration's minimum is 70 seconds and maximum is 180 seconds. (This is the most important)
 
-Dacă durata fiecărui videoclip rezultat este mai mică de 70 de secunde, continuați să obțineți rezultatele corecte în timp ce obțineți toate rezultatele bune. Dacă durata fiecărui videoclip rezultat nu este mai mică de 70 de secunde, scoateți rezultatele în formatul corect.
+          If each result video's lasting duration is short of 70 seconds, please continue getting the correct result while you get all good result which video's lasting duration is large of 70 seconds. If each result video's lasting duration is not short of 70 seconds, output the correct formatted result.
         "
       """
         
