@@ -83,7 +83,7 @@ def handle_video_processing(video_name):
             
             for idx, insight in enumerate(insights):
               clip_path = f"/data/clip_{idx + 1}.mp4"
-              if not os.path.exists(clip_path):
+              if os.path.exists(clip_path):
                   print(f"Clip_path is generated, Path: {clip_path}")  # Logs an info level message
               else:
                 print(f"Clip_path is not generated. Path: {clip_path}")  # Logs an info level message

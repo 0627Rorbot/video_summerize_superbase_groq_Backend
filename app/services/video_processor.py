@@ -63,11 +63,11 @@ class VideoProcessor:
         "
 
         Prompt: "
-          I have a video transcription and I need to identify the three moments with lasting duration's minimum is 70 seconds and maximum is 180 seconds and most insightful.
+          I have a video transcription.
+          I have to identify the three moments with lasting duration's minimum is 70 seconds and maximum is 180 seconds and most insightful.
           The each result video's lasting duration's minimum is 70 seconds and maximum is 180 seconds .(This is the most important)
 
-          If each result video's lasting duration is short of 70 seconds, please continue getting the correct result while you get all good result which video's lasting duration is large of 100 seconds. If each result video's lasting duration is not short of 100 seconds, output the correct formatted result.
-          You can try 10 times. Please give me the best result one.
+          If each result video's lasting duration is short of 70 seconds, please continue getting the correct result while you get all good result which video's lasting duration is large of 70 seconds. If each result video's lasting duration is not short of 70 seconds, output the correct formatted result.
         "
       """
         
