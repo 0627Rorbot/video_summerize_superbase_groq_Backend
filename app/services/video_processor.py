@@ -49,40 +49,33 @@ class VideoProcessor:
 
   
   def get_insightful_moments(self, transcript):
-    while True:
-      prompt = f"""
-          Transcript:
-          {transcript}
+    prompt = f"""
+        Transcript:
+        {transcript}
 
-          Output format: "
-          1. Timestamp: [start_time]-[end_time] seconds
-            Insight: [description]
-          2. Timestamp: [start_time]-[end_time] seconds
-            Insight: [description]
-          3. Timestamp: [start_time]-[end_time] seconds
-            Insight: [description]
-          "
+        Output format: "
+        1. Timestamp: [start_time]-[end_time] seconds
+          Insight: [description]
+        2. Timestamp: [start_time]-[end_time] seconds
+          Insight: [description]
+        3. Timestamp: [start_time]-[end_time] seconds
+          Insight: [description]
+        "
 
-          Prompt: "
-            I have a video transcription and I need to identify the three moments with lasting duration's minimum is 70 seconds and maximum is 180 seconds and most insightful.
-            The each result video's lasting duration's minimum is 70 seconds and maximum is 180 seconds .(This is the most important)
+        Prompt: "
+          I have a video transcription and I need to identify the three moments with lasting duration's minimum is 70 seconds and maximum is 180 seconds and most insightful.
+          The each result video's lasting duration's minimum is 70 seconds and maximum is 180 seconds .(This is the most important)
 
-            If each result video's lasting duration is short of 70 seconds, please continue getting the correct result while you get all good result which video's lasting duration is large of 100 seconds. If each result video's lasting duration is not short of 100 seconds, output the correct formatted result.
-            You can try 10 times. Please give me the best result one.
-          "
-        """
-          
-      completion = self.client.chat.completions.create(
-        model="llama-3.2-90b-text-preview", messages=[{"role": "user", "content": prompt}], max_tokens=2048
-      )
+          If each result video's lasting duration is short of 70 seconds, please continue getting the correct result while you get all good result which video's lasting duration is large of 100 seconds. If each result video's lasting duration is not short of 100 seconds, output the correct formatted result.
+          You can try 10 times. Please give me the best result one.
+        "
+      """
+        
+    completion = self.client.chat.completions.create(
+      model="llama-3.2-90b-text-preview", messages=[{"role": "user", "content": prompt}], max_tokens=2048
+    )
 
-      insights_text = completion.choices[0].message.content
-      
-      # video_infoes = self.parse_insights(insights_text)
-      # print(video_infoes)
-      
-      # if self._is_validate_videos(video_infoes=video_infoes, min_limit=46, max_limit=180):
-      #   break
+    insights_text = completion.choices[0].message.content
       
     return insights_text
 
