@@ -88,7 +88,7 @@ def handle_video_processing(video_name):
               else:
                 print(f"Clip_path is not generated. Path: {clip_path}")  # Logs an info level message
               # Check upload superbase
-              res = storage_manager.upload_video_to_bucket(bucket_name, f"/data/{clip_path}")
+              res = storage_manager.upload_video_to_bucket(bucket_name, clip_path)
               
             return jsonify({'message': 'Video processed successfully', 'insights': insights}), 200
           
