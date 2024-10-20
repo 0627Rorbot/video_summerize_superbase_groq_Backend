@@ -52,12 +52,6 @@ def handle_video_processing(video_name):
       
     audio_file='/data/input_audio.mp3'
     
-    if os.path.exists(video_path):
-      os.remove(video_path)
-      print("Uploaded video file is removed.")
-    else:
-      print("Uploaded video file is not exists")
-      
     if os.path.exists(audio_file):
       os.remove(audio_file)
       print("Audio file is removed.")
