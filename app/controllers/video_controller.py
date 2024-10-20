@@ -82,7 +82,6 @@ def handle_video_processing(video_name):
             video_processor.extract_clips(video_path, insights)
             
             for idx, insight in enumerate(insights):
-              clip = video.subclip(insight['start_time'], insight['end_time'])
               clip_path = f"/data/clip_{idx + 1}.mp4"
               # Check upload superbase
               res = storage_manager.upload_video_to_bucket(bucket_name, f"/data/{clip_path}")
