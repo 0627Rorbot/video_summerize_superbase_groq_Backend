@@ -51,11 +51,19 @@ def handle_video_processing(video_name):
       print(f"Video is not downloaded. Path: {video_path}")  # Logs an info level message
       
     audio_file='/data/input_audio.mp3'
+    
+    if os.path.exists(video_path):
+      os.remove(video_path)
+      print("Uploaded video file is removed.")
+    else:
+      print("Uploaded video file is not exists")
+      
     if os.path.exists(audio_file):
       os.remove(audio_file)
       print("Audio file is removed.")
     else:
       print("Audio file is not exists")
+    
     # Extract audio and process insights
     audio_file = video_processor.extract_audio(video_path, audio_file)
     
